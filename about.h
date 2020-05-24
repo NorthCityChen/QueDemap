@@ -1,6 +1,6 @@
 /*
  * @Author: Mr.Sen
- * @LastEditTime: 2020-05-22 20:44:58
+ * @LastEditTime: 2020-05-23 12:49:56
  * @Website: https://grimoire.cn
  * @Mr.Sen All rights reserved
  */
@@ -9,7 +9,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-#include <string>
 
 #ifndef WHITE
 
@@ -53,17 +52,15 @@ ________                ________              _____                 \n\
     return ;
 }
 
-using namespace std;
-#include <iostream>
-void rainbow(string str,int flg)
+void rainbow(char str[],int flg)
 {
     if (zxc==8) zxc++;
     if (flg) 
     {
         color(zxc++);
     }
-    // printf("%s\n",str);
-    cout<<str;
+    printf("%s",str);
+    // cout<<str;
         color(WHITE);
     return;
 }
@@ -71,20 +68,25 @@ void help(int f)
 {
     system("CLS");
     // printf("I am help!\n");
-    string r1="Type \"login\" to login your account\n";
-    string r2="Type \"delmber\" to delet a user\n";
-    string r3="Type \"dir\" to show all users\n";
-    string r4="Type \"add\" to add some now citys\n";
-    string r5="Type \"del\" to delet a city\n";
-    string r6="Type \"regist\" to regist some new accounts\n";
-    string r7="Type \"show\" to show all the cities\n";
+    char r1[]="Type \"login\" to login your account\n";
+    char r2[]="Type \"delmber\" to delet a user\n";
+    char r3[]="Type \"dir\" to show all users\n";
+    char r4[]="Type \"add\" to add some now citys\n";
+    char r5[]="Type \"del\" to delet a city\n";
+    char r6[]="Type \"regist\" to regist some new accounts\n";
+    char r7[]="Type \"show\" to show all the cities\n";
+    char split[]="--------------------------------------\n";
+
     rainbow(r1,f);
     rainbow(r2,f);
     rainbow(r3,f);
     rainbow(r4,f);
     rainbow(r5,f);
-    rainbow("--------------------------------------\n",f);
+
+    rainbow(split,f);
+    
     rainbow(r6,f);
     rainbow(r7,f);
+    zxc=1;
 }
 #endif

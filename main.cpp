@@ -1,6 +1,6 @@
 /*
  * @Author: Mr.Sen
- * @LastEditTime: 2020-05-22 22:43:24
+ * @LastEditTime: 2020-05-24 20:11:16
  * @Website: https://grimoire.cn
  * @Mr.Sen All rights reserved
  */ 
@@ -53,8 +53,8 @@ int main()
             help(1);
         else if (strcmp(cmd,"loggout")==0)
             logout();
-        // else if (strcmp(cmd,"require")!=0&&flag>=1)
-        //     req();
+        else if (strcmp(cmd,"require")==0)
+            find_way();
         // else if (strcmp(cmd,"connect")!=0&&flag>=1)
         //     connect();
         else 

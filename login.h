@@ -1,6 +1,6 @@
 /*
  * @Author: Mr.Sen
- * @LastEditTime: 2020-05-22 22:42:46
+ * @LastEditTime: 2020-05-23 01:02:28
  * @Website: https://grimoire.cn
  * @Mr.Sen All rights reserved
  */ 
@@ -230,7 +230,9 @@ void del_member()
 void logout()
 {
     flag=0;
+    color(GREEN);
     printf("%s has logged out.\n",usr);
+    color(WHITE);
     memset(usr,0,sizeof(usr));
     return ;
 }
