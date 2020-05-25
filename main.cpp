@@ -1,6 +1,6 @@
 /*
  * @Author: Mr.Sen
- * @LastEditTime: 2020-05-25 10:55:23
+ * @LastEditTime: 2020-05-25 16:39:47
  * @Website: https://grimoire.cn
  * @Mr.Sen All rights reserved
  */ 
@@ -52,7 +52,7 @@ int main()
             help(0);
         else if (strcmp(cmd,"-help")==0)
             help(1);
-        else if (strcmp(cmd,"loggout")==0)
+        else if (strcmp(cmd,"logout")==0)
             logout(),cl=GREEN;
         else if (strcmp(cmd,"require")==0)
         {
@@ -65,6 +65,10 @@ int main()
                 printf("No \"loc.txt\" founded!\n");
                 color(WHITE);
             }
+        }
+        else if (strcmp(cmd,"kill-la-kill")==0)
+        {
+            printt();
         }
         // else if (strcmp(cmd,"connect")!=0&&flag>=1)
         //     connect();

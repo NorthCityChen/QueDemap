@@ -1,6 +1,6 @@
 /*
  * @Author: Mr.Sen
- * @LastEditTime: 2020-05-25 10:55:15
+ * @LastEditTime: 2020-05-25 16:43:11
  * @Website: https://grimoire.cn
  * @Mr.Sen All rights reserved
  */
@@ -27,6 +27,7 @@ void print();
 void rainbow(char str[],int flg);
 void help(int f);
 void cprint(char str[],int x);
+void printt();
 
 void color(int x)	//自定义函根据参数改变颜色 
 {
@@ -108,5 +109,8 @@ void cprint(char str[],int x)
     color(WHITE);
     return ;
 }
-
+void printt()
+{
+    printf("kill-la-kill\n");
+}
 #endif

@@ -1,6 +1,6 @@
 /*
  * @Author: Mr.Sen
- * @LastEditTime: 2020-05-25 10:53:16
+ * @LastEditTime: 2020-05-25 16:21:10
  * @Website: https://grimoire.cn
  * @Mr.Sen All rights reserved
  */ 
@@ -27,16 +27,15 @@ typedef struct    //图的邻接矩阵存储结构
     VertexType vexs[9];  //顶点向量  
     EdgeType edges[9][9];     //邻接矩阵  
     int vexnum,arcnum;    //图中当前的顶点数和边数  
- 
 }MGraph;  
 
 int add();      //添加数据
-void show();        //展示所有的目的地
-int init_map();    //初始化地图
-void del();      //删除数据
+void show();    //展示所有的目的地
+int init_map(); //初始化地图
+void del();     //删除数据
 void sort();    //对数据进行排序并保存
 int find_way(); //查找最短路径
-void dir_city(); //输出城市列表
+int dir_city(); //输出城市列表
 void CreateGraph(MGraph *G);
 void ShortestPath_Floyd(MGraph G,double P[9][9],double D[9][9]);
 
@@ -180,7 +179,7 @@ void show()
     dir_city();
     return;
 }
-void dir_city()
+int dir_city()
 {
     FILE *fp;
     char name[100];
@@ -188,8 +187,10 @@ void dir_city()
     fp=fopen("loc.txt","r");
     if (fp==NULL)
     {
-        printf("An error occurred suddendly!\n");
-        return;
+        // printf("An error occurred suddendly!\n");
+        char str[]="No city information founded!!\n";
+        cprint(str,RED);
+        return 0;
     }
     color(BLUE);
     printf("\n -------------------------------------------\n");
@@ -206,14 +207,17 @@ void dir_city()
     printf(" -------------------------------------------\n");
     color(WHITE);
     fclose(fp);
-    return;
+    return 1;
 }
 
 void del()
 {
     char name[100],choice[5],target[100];
     int x,y;
-    dir_city();
+    if (dir_city()==0)
+    {
+        return ;
+    }
     color(BLUE);
     printf("Please enter the city you want to delet:\n");
     scanf("%s",target);
@@ -362,6 +366,12 @@ void CreateGraph(MGraph *G)
            	 	G->edges[i][j]=INFINITY2;  
  
         FILE *fp=fopen("cache.txt","r");
+        if (fp==NULL) 
+        {
+            char str[]="Err\n";
+            cprint(str,RED);
+            return ;
+        }
         for(k=0;k<G->arcnum;k++)  
         {  
  
@@ -438,27 +448,6 @@ int find_way()
     if (bg<=0) bg=1;
     if (ed-1>=G.vexnum) ed=G.vexnum;
     if (ed<=0) ed=1;
-    // printf("%d %d\n",bg,ed);
-    // printf("%d",G.vexnum);
-    // for(v=0;v<G.vexnum;v++)//显示路径 
-    // {
-    //     for(w=v+1;w<G.vexnum;w++)
-    //     {
-    //         if (v==bg-1&&w==ed-1)
-    //         {
-    //             printf("v%d-v%d weight:%lf ",v+1,w+1,D[v][w]);
-    //             k=P[v][w];
-    //             printf("path:%d",v+1);
-    //             while(k!=w)
-    //             {
-    //                 printf("->%d",(int)k+1);
-    //                 k=P[(int)k][w];
-    //             }
-    //             printf("->%d\n",w+1);
-    //         }
-    //     }
-    // }
-
 
     char str1[40],str2[40],str3[40];
     printf("From %d -> %d\n",bg,ed);
