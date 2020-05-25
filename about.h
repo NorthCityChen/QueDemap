@@ -1,6 +1,6 @@
 /*
  * @Author: Mr.Sen
- * @LastEditTime: 2020-05-23 12:49:56
+ * @LastEditTime: 2020-05-25 10:55:15
  * @Website: https://grimoire.cn
  * @Mr.Sen All rights reserved
  */
@@ -16,8 +16,17 @@
 #define RED 4
 #define BLUE 1
 #define GREEN 2
+#define YELLOW 6
+
 
 int zxc=1;
+
+void color(int x);
+void warn();
+void print();
+void rainbow(char str[],int flg);
+void help(int f);
+void cprint(char str[],int x);
 
 void color(int x)	//自定义函根据参数改变颜色 
 {
@@ -75,6 +84,7 @@ void help(int f)
     char r5[]="Type \"del\" to delet a city\n";
     char r6[]="Type \"regist\" to regist some new accounts\n";
     char r7[]="Type \"show\" to show all the cities\n";
+    char r8[]="Type \"require\" to calculate the shortest distance\n";
     char split[]="--------------------------------------\n";
 
     rainbow(r1,f);
@@ -87,6 +97,16 @@ void help(int f)
     
     rainbow(r6,f);
     rainbow(r7,f);
+    rainbow(r8,f);
     zxc=1;
 }
+
+void cprint(char str[],int x)
+{
+    color(x);
+    printf("%s",str);
+    color(WHITE);
+    return ;
+}
+
 #endif

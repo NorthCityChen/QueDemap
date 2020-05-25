@@ -1,6 +1,6 @@
 /*
  * @Author: Mr.Sen
- * @LastEditTime: 2020-05-24 20:11:16
+ * @LastEditTime: 2020-05-25 10:55:23
  * @Website: https://grimoire.cn
  * @Mr.Sen All rights reserved
  */ 
@@ -11,7 +11,8 @@ int main()
 {
     char cmd[100];
     print();
-    while(color(GREEN),(strcmp(usr,"")?printf("[cmd]%s:",usr):printf("[cmd]:"),scanf("%s",cmd)!=-1)&&strcmp(cmd,"exit")!=0)
+    int cl=GREEN;
+    while(color(cl),(strcmp(usr,"")?printf("[cmd] %s:",usr):printf("[cmd]:"),scanf("%s",cmd)!=-1)&&strcmp(cmd,"exit")!=0)
     {
         color(WHITE);
         if (strcmp(cmd,"login")==0)
@@ -52,13 +53,25 @@ int main()
         else if (strcmp(cmd,"-help")==0)
             help(1);
         else if (strcmp(cmd,"loggout")==0)
-            logout();
+            logout(),cl=GREEN;
         else if (strcmp(cmd,"require")==0)
-            find_way();
+        {
+            // checkfile();
+            if (access("loc.txt",0)==0)
+                find_way();
+            else
+            {
+                color(RED);
+                printf("No \"loc.txt\" founded!\n");
+                color(WHITE);
+            }
+        }
         // else if (strcmp(cmd,"connect")!=0&&flag>=1)
         //     connect();
         else 
             printf("cmd:%s not defined!\n",cmd);
+        if (flag==2) cl=YELLOW;
+        if (flag==1) cl=GREEN;
     }
     color(WHITE);
     return 0;

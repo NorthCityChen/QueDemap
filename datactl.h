@@ -1,6 +1,6 @@
 /*
  * @Author: Mr.Sen
- * @LastEditTime: 2020-05-24 20:22:55
+ * @LastEditTime: 2020-05-25 10:53:16
  * @Website: https://grimoire.cn
  * @Mr.Sen All rights reserved
  */ 
@@ -35,7 +35,8 @@ void show();        //展示所有的目的地
 int init_map();    //初始化地图
 void del();      //删除数据
 void sort();    //对数据进行排序并保存
-int find_way();
+int find_way(); //查找最短路径
+void dir_city(); //输出城市列表
 void CreateGraph(MGraph *G);
 void ShortestPath_Floyd(MGraph G,double P[9][9],double D[9][9]);
 
@@ -108,18 +109,14 @@ int init_map()
     {
         if (vis_y[i]&&bef!=-1)
         {
-            // printf("%dx%d ",bef,vis_y[i]);
             line_number+=bef*vis_y[i];
             bef=vis_y[i];
         }
         if (vis_y[i]&&bef==-1)
         {
-            // line_number+=vis_y[i];
             bef=vis_y[i];
-            // printf("%d ",vis_y[i]);
         }
     }
-    // printf("\nline:%d\n",line_number);
     sort();
     return line_number;
 }
@@ -176,11 +173,12 @@ void show()
         color(WHITE);
         for (int j=1;j<=my+1;j++)
         {
-            // printf("%d ",map[i][j]);
             map[i][j]?(color(RED),printf("%3s  ","X"),color(WHITE),1):printf("%3s  ","O");
         }
         printf("\n");
     }
+    dir_city();
+    return;
 }
 void dir_city()
 {
@@ -193,10 +191,20 @@ void dir_city()
         printf("An error occurred suddendly!\n");
         return;
     }
+    color(BLUE);
+    printf("\n -------------------------------------------\n");
+    printf("|%-10s|%-10s|%-10s|%-10s|\n","Index","City","X-Loc","Y-Loc");
+    printf(" -------------------------------------------\n");
+    color(WHITE);
+    int index=1;
     while (fscanf(fp,"%s%d%d\n",name,&x,&y)!=-1)
     {
-        printf("%s %d %d\n",name,x,y);
+        printf("|%-10d|%-10s|%-10d|%-10d|\n",index,name,x,y);
+        index++;
     }
+    color(BLUE);
+    printf(" -------------------------------------------\n");
+    color(WHITE);
     fclose(fp);
     return;
 }
@@ -216,26 +224,36 @@ void del()
     {
         FILE *fp,*tmp;
         fp=fopen("loc.txt","r");
-        tmp=fopen("cache.txt","a");
+        tmp=fopen("cache2.txt","a");
         if (fp==NULL||tmp==NULL)
         {
             color(RED);
-            printf("An error occurred\n");
+            printf("\"loc.txt\" does not exist!\n");
             color(WHITE);
+            return ;
         }
+        int fg1=0;
         while (fscanf(fp,"%s%d%d\n",name,&x,&y)!=-1)
         {
             if (strcmp(name,target))
             {
                 fprintf(tmp,"%s %d %d\n",name,x,y);
             }
+            else
+            {
+                fg1=1;
+            }
+            
         }
         fclose(fp);
         fclose(tmp);
         remove("loc.txt");
-        rename("cache.txt","loc.txt");
-        printf("successfully delete\n");
+        rename("cache2.txt","loc.txt");
+        if (fg1==1) color(GREEN),printf("successfully delete\n");
+        else color(RED),printf("%s does not exist\n",target);
+        color(WHITE);
     }
+        
     else
     {
         printf("Cancelled\n");
@@ -279,7 +297,6 @@ void makeinput()
     FILE *fp2=fopen("cache.txt","a");
     for (int i=1;i<=my;i++)
     {
-        // printf("!!!");
         int move=1;
         for (int j=1;j<=mx;j++)
         {
@@ -330,18 +347,11 @@ void CreateGraph(MGraph *G)
     int ch1,ch2;
     double weight;  
     makeinput();
-    // printf("Please input the loc and line number:\n");  
- 
-    // scanf("%d%d",&(G->vexnum),&(G->arcnum));
     G->vexnum=city_number;
-    G->arcnum=init_map();
-    // printf("%d\n",city_number);
- 
-    // printf("Please input the node name\n");  
+    G->arcnum=init_map(); 
  
     for(i=0;i<G->vexnum;i++)  
     {  
-    //    scanf("%d",&(G->vexs[i]));
         G->vexs[i]=i+1;
     }  
     for(i=0;i<G->vexnum;i++)  
@@ -351,18 +361,15 @@ void CreateGraph(MGraph *G)
         	else
            	 	G->edges[i][j]=INFINITY2;  
  
-        // printf("Please input each line's node name\n");
         FILE *fp=fopen("cache.txt","r");
         for(k=0;k<G->arcnum;k++)  
         {  
-           // getchar();
-            // printf("%d:",k+1);  
+ 
             fscanf(fp,"%d%d%lf\n",&ch1,&ch2,&weight);
-            // printf("%d %d %lf\n",ch1,ch2,weight);
+
             for(i=0;ch1!=G->vexs[i];i++);  
             for(j=0;ch2!=G->vexs[j];j++);  
-			// printf("%d value:",k+1); 
-            // scanf("%lf",&weight);	
+	
             G->edges[i][j]=weight; 
 			G->edges[j][i]=weight;  
         } 
@@ -389,9 +396,10 @@ void ShortestPath_Floyd(MGraph G,double P[9][9],double D[9][9])
 			for(w=0;w<G.vexnum;w++)
 			{
 				if(D[v][w]>(D[v][k]+D[k][w]))
-				{//如果经过下标为k顶点路径比原两点间路径更短，将当前两点间权值设为更小的一个 
-				D[v][w]=D[v][k]+D[k][w];
-				P[v][w]=P[v][k];
+				{
+                    //如果经过下标为k顶点路径比原两点间路径更短，将当前两点间权值设为更小的一个 
+                    D[v][w]=D[v][k]+D[k][w];
+                    P[v][w]=P[v][k];
 				}
 				
 			}
@@ -412,26 +420,56 @@ int find_way()
     ShortestPath_Floyd(G,P,D);
     show();
     int bg,ed;
-    printf("Please input the city you want to go:");
-    scanf("%d%d",&bg,&ed);
-    for(v=0;v<G.vexnum;v++)//显示路径 
+    printf("-------------------------------------\n");
+    // printf("Please input the city you want to go:");
+    printf("From:");
+    scanf("%d",&bg);
+    printf("To:");
+    scanf("%d",&ed);
+    int fg2=0;
+    if (bg>ed)
     {
-        for(w=v+1;w<G.vexnum;w++)
-        {
-            if (v==bg-1&&w==ed-1)
-            {
-                printf("v%d-v%d weight:%lf ",v+1,w+1,D[v][w]);
-                k=P[v][w];
-                printf("path:%d",v+1);
-                while(k!=w)
-                {
-                    printf("->%d",(int)k+1);
-                    k=P[(int)k][w];
-                }
-                printf("->%d\n",w+1);
-            }
-            
-        }
+        int tmp=bg;
+        bg=ed;
+        ed=tmp;
+        fg2=1;
     }
+    if (bg-1>=G.vexnum) bg=G.vexnum;
+    if (bg<=0) bg=1;
+    if (ed-1>=G.vexnum) ed=G.vexnum;
+    if (ed<=0) ed=1;
+    // printf("%d %d\n",bg,ed);
+    // printf("%d",G.vexnum);
+    // for(v=0;v<G.vexnum;v++)//显示路径 
+    // {
+    //     for(w=v+1;w<G.vexnum;w++)
+    //     {
+    //         if (v==bg-1&&w==ed-1)
+    //         {
+    //             printf("v%d-v%d weight:%lf ",v+1,w+1,D[v][w]);
+    //             k=P[v][w];
+    //             printf("path:%d",v+1);
+    //             while(k!=w)
+    //             {
+    //                 printf("->%d",(int)k+1);
+    //                 k=P[(int)k][w];
+    //             }
+    //             printf("->%d\n",w+1);
+    //         }
+    //     }
+    // }
+
+
+    char str1[40],str2[40],str3[40];
+    printf("From %d -> %d\n",bg,ed);
+    printf("Weight: %.3lf\n",D[bg-1][ed-1]);
+    printf("Path:%s",loc_lst[bg-1].name);
+    k=P[bg-1][ed-1];
+    while (k!=ed-1)
+    {
+        printf("->%s",loc_lst[(int)k].name);
+        k=P[(int)k][ed-1];
+    }
+    printf("->%s\n",loc_lst[ed-1].name);
     return 0;
 } 

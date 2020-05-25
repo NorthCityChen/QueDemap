@@ -1,6 +1,6 @@
 /*
  * @Author: Mr.Sen
- * @LastEditTime: 2020-05-23 01:02:28
+ * @LastEditTime: 2020-05-25 08:04:04
  * @Website: https://grimoire.cn
  * @Mr.Sen All rights reserved
  */ 
@@ -105,12 +105,13 @@ void singup()
             //允许注册
             fprintf(fp,"%s %s %s %d\n",name,acct,pwd,pwr);
             fclose(fp);
+            color(GREEN);
+            printf("Creat accont succeed!\n");
+            printf("Enter \"end\" to finish registing\n");
+            color(WHITE);
             printf("Please enter your name:");
         }
     }
-    color(GREEN);
-    printf("Creat accont succeed!\n");
-    color(WHITE);
     return;
 }
 int login()
@@ -195,6 +196,7 @@ void del_member()
         link_list *p,*pre;
         pre=head;
         p=head->next;
+        int fg1=0;
         while (p)
         {
             if(strcmp(p->acct,acct)==0)
@@ -202,6 +204,7 @@ void del_member()
                 pre->next=p->next;
                 free(p);
                 p=pre->next;
+                fg1=1;
             }
             else
             {
@@ -218,7 +221,18 @@ void del_member()
         fclose(fp);
         remove("dat.txt");
         rename("cache.txt","dat.txt");
-        printf("successfully delete\n");
+        if (fg1==1)
+        {
+            color(GREEN);
+            printf("successfully delete\n");
+            color(WHITE);
+        }
+        else
+        {
+            color(RED);
+            printf("%s does not exist!\n",acct);
+            color(WHITE);
+        }
     }
     else
     {

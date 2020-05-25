@@ -1,3 +1,0 @@
-mrsen mrsen mrsen 2
-wan admin pwd 1
-admin2 admin2 pwd 2
