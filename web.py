@@ -1,6 +1,6 @@
 '''
 @Author: Mr.Sen
-@LastEditTime: 2020-05-26 12:48:52
+@LastEditTime: 2020-05-26 13:00:41
 @Website: https://grimoire.cn
 @Mr.Sen All rights reserved
 '''
@@ -31,6 +31,8 @@ def upload(options=options):
 
 def fetch(options=options):
     client = Client(options)
+    if not client.check("/server"):
+        client.mkdir("/server")
     lst=client.list("/server")[1::]
     cnt=0
     for i in lst:
