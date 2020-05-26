@@ -1,6 +1,6 @@
 /*
  * @Author: Mr.Sen
- * @LastEditTime: 2020-05-25 16:39:47
+ * @LastEditTime: 2020-05-26 12:54:15
  * @Website: https://grimoire.cn
  * @Mr.Sen All rights reserved
  */ 
@@ -57,7 +57,7 @@ int main()
         else if (strcmp(cmd,"require")==0)
         {
             // checkfile();
-            if (access("loc.txt",0)==0)
+            if (access(".\\dat\\loc.txt",0)==0)
                 find_way();
             else
             {
@@ -72,6 +72,23 @@ int main()
         }
         // else if (strcmp(cmd,"connect")!=0&&flag>=1)
         //     connect();
+        else if (strcmp(cmd,"fetch")==0)
+        {
+            if (flag==2)
+                system("python web.py fetch");
+            else warn();
+        }
+        else if (strcmp(cmd,"backup")==0)
+        {
+            if (flag==2)
+            {
+                 system("python web.py upload");
+                 char str[]="The backup succeed!\n";
+                 cprint(str,GREEN);
+            }
+               
+            else warn();
+        }
         else 
             printf("cmd:%s not defined!\n",cmd);
         if (flag==2) cl=YELLOW;

@@ -1,6 +1,6 @@
 /*
  * @Author: Mr.Sen
- * @LastEditTime: 2020-05-25 16:21:10
+ * @LastEditTime: 2020-05-26 11:07:32
  * @Website: https://grimoire.cn
  * @Mr.Sen All rights reserved
  */ 
@@ -63,7 +63,7 @@ int add()
         strcpy(loc_lst[index].name,name);
         loc_lst[index].x=x;
         loc_lst[index].y=y;
-        FILE *fp=fopen("loc.txt","a");
+        FILE *fp=fopen(".\\dat\\loc.txt","a");
         fprintf(fp,"%s %d %d\n",name,x,y);
         fclose(fp);
         color(GREEN);
@@ -83,7 +83,7 @@ int init_map()
     int x,y,index2=0;
     memset(map,0,sizeof(map));
     memset(vis_y,0,sizeof(vis_y));
-    fp=fopen("loc.txt","r");
+    fp=fopen(".\\dat\\loc.txt","r");
     if (fp==NULL)
     {
         printf("An error occurred suddendly!\n");
@@ -142,7 +142,7 @@ void sort()
             }
         }
     }
-    FILE *fp=fopen("loc.txt","w");
+    FILE *fp=fopen(".\\dat\\loc.txt","w");
     for (int i=0;i<city_number;i++)
     {
         fprintf(fp,"%s %d %d\n",loc_lst[i].name,loc_lst[i].x,loc_lst[i].y);
@@ -184,7 +184,7 @@ int dir_city()
     FILE *fp;
     char name[100];
     int x,y;
-    fp=fopen("loc.txt","r");
+    fp=fopen(".\\dat\\loc.txt","r");
     if (fp==NULL)
     {
         // printf("An error occurred suddendly!\n");
@@ -227,8 +227,8 @@ void del()
     if (strcmp(choice,"Y")==0)
     {
         FILE *fp,*tmp;
-        fp=fopen("loc.txt","r");
-        tmp=fopen("cache2.txt","a");
+        fp=fopen(".\\dat\\loc.txt","r");
+        tmp=fopen(".\\dat\\cache2.txt","a");
         if (fp==NULL||tmp==NULL)
         {
             color(RED);
@@ -251,8 +251,8 @@ void del()
         }
         fclose(fp);
         fclose(tmp);
-        remove("loc.txt");
-        rename("cache2.txt","loc.txt");
+        remove(".\\dat\\loc.txt");
+        rename(".\\dat\\cache2.txt",".\\dat\\loc.txt");
         if (fg1==1) color(GREEN),printf("successfully delete\n");
         else color(RED),printf("%s does not exist\n",target);
         color(WHITE);
@@ -279,7 +279,7 @@ void makeinput()
     int x,y,index2=0;
     memset(map,0,sizeof(map));
     memset(vis_y,0,sizeof(vis_y));
-    fp=fopen("loc.txt","r");
+    fp=fopen(".\\dat\\loc.txt","r");
     if (fp==NULL)
     {
         printf("An error occurred suddendly!\n");
@@ -298,7 +298,7 @@ void makeinput()
     fclose(fp);
     if (access("cache.txt",0)==0)
         remove("cache.txt");
-    FILE *fp2=fopen("cache.txt","a");
+    FILE *fp2=fopen(".\\dat\\cache.txt","a");
     for (int i=1;i<=my;i++)
     {
         int move=1;
@@ -365,7 +365,7 @@ void CreateGraph(MGraph *G)
         	else
            	 	G->edges[i][j]=INFINITY2;  
  
-        FILE *fp=fopen("cache.txt","r");
+        FILE *fp=fopen(".\\dat\\cache.txt","r");
         if (fp==NULL) 
         {
             char str[]="Err\n";

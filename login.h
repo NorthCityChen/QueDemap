@@ -1,6 +1,6 @@
 /*
  * @Author: Mr.Sen
- * @LastEditTime: 2020-05-25 08:04:04
+ * @LastEditTime: 2020-05-26 11:13:04
  * @Website: https://grimoire.cn
  * @Mr.Sen All rights reserved
  */ 
@@ -8,7 +8,6 @@
 #include <string.h>
 #include <stdlib.h>
 #include "about.h"
-
 
 typedef struct node
 {
@@ -41,7 +40,7 @@ link_list *init()
 {
     link_list* head=(link_list*)malloc(sizeof(link_list));
     link_list* tail=head;
-    FILE *fp=fopen("dat.txt","r");
+    FILE *fp=fopen(".\\dat\\dat.txt","r");
     if (fp==NULL)
     {
         printf("\"dat.txt \"Not Found! Please Create One!\n");
@@ -79,7 +78,7 @@ void singup()
         printf("Please enter your pwr:");
         scanf("%d",&pwr);
         // scanf("%s%s%d",acct,pwd,&pwr);
-        FILE *fp=fopen("dat.txt","a");
+        FILE *fp=fopen(".\\dat\\dat.txt","a");
         if (fp==NULL)
         {
             color(RED);
@@ -184,8 +183,8 @@ void del_member()
     if (strcmp(choice,"Y")==0)
     {
         FILE *tmp,*fp;
-        fp=fopen("dat.txt","r");
-        tmp=fopen("cache.txt","a");
+        fp=fopen(".\\dat\\dat.txt","r");
+        tmp=fopen(".\\dat\\cache.txt","a");
         if (fp==NULL||tmp==NULL) 
         {
             color(RED);
@@ -219,8 +218,8 @@ void del_member()
         }
         fclose(tmp);
         fclose(fp);
-        remove("dat.txt");
-        rename("cache.txt","dat.txt");
+        remove(".\\dat\\dat.txt");
+        rename(".\\dat\\cache.txt",".\\dat\\dat.txt");
         if (fg1==1)
         {
             color(GREEN);
