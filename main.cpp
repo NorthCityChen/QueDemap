@@ -1,20 +1,23 @@
 /*
  * @Author: Mr.Sen
- * @LastEditTime: 2020-05-26 12:54:15
+ * @LastEditTime: 2020-05-27 13:44:18
  * @Website: https://grimoire.cn
  * @Mr.Sen All rights reserved
  */ 
 #include "login.h"
 #include "datactl.h"
+#include "store.h"
+#include <direct.h>
 
 int main()
 {
     char cmd[100];
     print();
-    int cl=GREEN;
+    int cl=GREEN,fg=0;
     while(color(cl),(strcmp(usr,"")?printf("[cmd] %s:",usr):printf("[cmd]:"),scanf("%s",cmd)!=-1)&&strcmp(cmd,"exit")!=0)
     {
         color(WHITE);
+        fg=0;
         if (strcmp(cmd,"login")==0)
             flag=login();
             //login
@@ -70,26 +73,19 @@ int main()
         {
             printt();
         }
-        // else if (strcmp(cmd,"connect")!=0&&flag>=1)
-        //     connect();
-        else if (strcmp(cmd,"fetch")==0)
-        {
-            if (flag==2)
-                system("python web.py fetch");
-            else warn();
-        }
-        else if (strcmp(cmd,"backup")==0)
+        else if (checkcmd(cmd))
         {
             if (flag==2)
             {
-                 system("python web.py upload");
-                 char str[]="The backup succeed!\n";
-                 cprint(str,GREEN);
+                char *cm=_getcwd(NULL,0);
+                strcat(cmd,".exe");
+                strcat(cm,"\\blocks\\");
+                strcat(cm,cmd);
+                system(cm);
             }
-               
             else warn();
         }
-        else 
+        else
             printf("cmd:%s not defined!\n",cmd);
         if (flag==2) cl=YELLOW;
         if (flag==1) cl=GREEN;

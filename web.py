@@ -1,11 +1,11 @@
 '''
 @Author: Mr.Sen
-@LastEditTime: 2020-05-26 13:00:41
+@LastEditTime: 2020-05-27 13:12:02
 @Website: https://grimoire.cn
 @Mr.Sen All rights reserved
 '''
 import time
-import argparse
+import os
 from webdav3.client import Client
 
 options = {
@@ -27,6 +27,8 @@ def upload(options=options):
     path="/server/"+str(int(time.time()))
     client.mkdir(path)
     client.upload(path,"./dat/")
+    print("Data backup succeeded!")
+    # print(path,os.path.dirname(os.getcwd())+"/dat/")
     # client.upload("/server2/file.txt","D:\\autotg\\rg\\requirement.txt")
 
 def fetch(options=options):
@@ -43,10 +45,18 @@ def fetch(options=options):
     print(parse_time(lst[index-1]),"has been restored")
     
 if __name__=="__main__":
-    praser=argparse.ArgumentParser()
-    praser.add_argument("type")
-    args = praser.parse_args()
-    if args.type=="fetch":
-        fetch()
-    if args.type=="upload":
+    # praser=argparse.ArgumentParser()
+    # praser.add_argument("type")
+    # args = praser.parse_args()
+    # if args.type=="fetch":
+    #     fetch()
+    # if args.type=="upload":
+    #     upload()
+    # upload()
+    cmd=input("Backup Or Restore?")
+    if (cmd=="backup" or cmd=="Backup"):
         upload()
+    elif (cmd=="restore" or cmd=="Restore"):
+        fetch()
+    else:
+        print("cmd not defined! exiting...")
