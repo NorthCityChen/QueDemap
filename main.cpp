@@ -1,13 +1,13 @@
 /*
  * @Author: Mr.Sen
- * @LastEditTime: 2020-06-01 22:14:26
+ * @LastEditTime: 2020-06-01 23:41:05
  * @Website: https://grimoire.cn
  * @Mr.Sen All rights reserved
  */ 
-#include "login.h"
-#include "city.h"
-#include "store.h"
-#include "path.h"
+#include "./headers/login.h"
+#include "./headers/city.h"
+#include "./headers/store.h"
+#include "./headers/path.h"
 #include <direct.h>
 
 int main()
@@ -72,7 +72,7 @@ int main()
             show_path();
         else if (strcmp(cmd,"help")==0)
             help(0);
-        else if (strcmp(cmd,"-help")==0)
+        else if (strcmp(cmd,"--help")==0)
             help(1);
         else if (strcmp(cmd,"logout")==0)
             logout(),cl=GREEN;
@@ -94,8 +94,9 @@ int main()
             {
                 char *cm=_getcwd(NULL,0);
                 strcat(cmd,".exe");
-                strcat(cm,"\\blocks\\");
+                strcat(cm,"/blocks/");
                 strcat(cm,cmd);
+                // puts(cm);
                 system(cm);
             }
             else warn();
