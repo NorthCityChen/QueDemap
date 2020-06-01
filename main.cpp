@@ -1,12 +1,13 @@
 /*
  * @Author: Mr.Sen
- * @LastEditTime: 2020-05-27 13:44:18
+ * @LastEditTime: 2020-06-01 22:14:26
  * @Website: https://grimoire.cn
  * @Mr.Sen All rights reserved
  */ 
 #include "login.h"
-#include "datactl.h"
+#include "city.h"
 #include "store.h"
+#include "path.h"
 #include <direct.h>
 
 int main()
@@ -14,50 +15,68 @@ int main()
     char cmd[100];
     print();
     int cl=GREEN,fg=0;
+    init_map();
     while(color(cl),(strcmp(usr,"")?printf("[cmd] %s:",usr):printf("[cmd]:"),scanf("%s",cmd)!=-1)&&strcmp(cmd,"exit")!=0)
     {
         color(WHITE);
         fg=0;
         if (strcmp(cmd,"login")==0)
-            flag=login();
+            PERMISSION=login();
             //login
         else if (strcmp(cmd,"regist")==0)
-            singup();
+            regist();
             //regist
-        else if (strcmp(cmd,"dir")==0)
+        else if (strcmp(cmd,"ls_user")==0)
         {
-            if (flag==2) ulist();
+            if (PERMISSION==2) ulist();
             else warn();
             //show user list
         }
-        else if (strcmp(cmd,"delmber")==0)
+        else if (strcmp(cmd,"del_member")==0)
         {
-            if (flag==2) del_member();
+            if (PERMISSION==2) del_member();
             else warn();
             //delet user
         }
-        else if (strcmp(cmd,"add")==0)
+        else if (strcmp(cmd,"add_city")==0)
         {
-            if (flag==2) add();
+            if (PERMISSION==2) add();
             else warn();
             //add cities
         }
-        else if (strcmp(cmd,"show")==0)
+        else if (strcmp(cmd,"add_path")==0)
+        {
+            if (PERMISSION==2) makeinput_by_hand();
+            else warn();
+        }
+        else if (strcmp(cmd,"add_path_auto")==0)
+        {
+            if (PERMISSION==2) makeinput();
+            else warn();
+        }
+        else if (strcmp(cmd,"ls_city")==0)
             show();
             //show city maps
-        else if (strcmp(cmd,"del")==0)
+        else if (strcmp(cmd,"del_city")==0)
         {
-            if (flag==2) del();
+            if (PERMISSION==2) del();
             else warn();
             //delet cities
         }
+        else if (strcmp(cmd,"del_path")==0)
+        {
+            if (PERMISSION==2) del_path();
+            else warn();
+        }
+        else if (strcmp(cmd,"ls_path")==0)
+            show_path();
         else if (strcmp(cmd,"help")==0)
             help(0);
         else if (strcmp(cmd,"-help")==0)
             help(1);
         else if (strcmp(cmd,"logout")==0)
             logout(),cl=GREEN;
-        else if (strcmp(cmd,"require")==0)
+        else if (strcmp(cmd,"path")==0)
         {
             // checkfile();
             if (access(".\\dat\\loc.txt",0)==0)
@@ -69,13 +88,9 @@ int main()
                 color(WHITE);
             }
         }
-        else if (strcmp(cmd,"kill-la-kill")==0)
-        {
-            printt();
-        }
         else if (checkcmd(cmd))
         {
-            if (flag==2)
+            if (PERMISSION==2)
             {
                 char *cm=_getcwd(NULL,0);
                 strcat(cmd,".exe");
@@ -87,8 +102,8 @@ int main()
         }
         else
             printf("cmd:%s not defined!\n",cmd);
-        if (flag==2) cl=YELLOW;
-        if (flag==1) cl=GREEN;
+        if (PERMISSION==2) cl=YELLOW;
+        if (PERMISSION==1) cl=GREEN;
     }
     color(WHITE);
     return 0;

@@ -1,5 +1,8 @@
-beijing 4 3
-asd 1 5
-fdsasd 4 5
-nanjing 3 6
-tiam 6 7
+ui 1 1
+tiko 2 3
+uio 5 3
+najing 2 4
+beijing 4 6
+fucky 6 6
+walu 9 6
+ssssdf 3 7

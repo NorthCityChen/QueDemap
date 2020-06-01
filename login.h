@@ -1,6 +1,6 @@
 /*
  * @Author: Mr.Sen
- * @LastEditTime: 2020-05-26 11:13:04
+ * @LastEditTime: 2020-06-01 19:38:40
  * @Website: https://grimoire.cn
  * @Mr.Sen All rights reserved
  */ 
@@ -21,19 +21,18 @@ typedef struct node
 }link_list;
 
 int login();    //登录
-int backup();   //备份地图
-int req();      //查询地图
-void singup();         //用户注册
+int req();      //查询路径
+void regist();         //用户注册
 void ulist();          //输出用户列表
 void del_member();     //删除用户信息
 void color(int x);     //控制字体颜色
 void warn();           //输出警告信息
 void logout();
-link_list* init();     //软件初始化
+link_list* init();     //�?件初始化
 
 
 char usr[100];
-int flag=0;
+int PERMISSION=0;
 
 
 link_list *init()
@@ -62,7 +61,7 @@ link_list *init()
     fclose(fp);
     return head;
 }
-void singup()
+void regist()
 {
     char name[100],acct[100],pwd[100];
     int pwr;
@@ -115,6 +114,7 @@ void singup()
 }
 int login()
 {
+    //登录
     char act[100],pwd[100];
 
     link_list *head=init();
@@ -123,7 +123,7 @@ int login()
         color(BLUE);
         printf("No user exist,please sign up first!\n");
         color(WHITE);
-        singup();
+        regist();
         head=init();
     }
     
@@ -157,9 +157,9 @@ int login()
 
 void ulist()
 {
+    //输出用户列表
     link_list *head=init();
     printf(" -------------------------------\n");
-    // printf("________________________________\n");
     while (head->next!=NULL)
     {
         head=head->next;
@@ -171,6 +171,7 @@ void ulist()
 
 void del_member()
 {
+    //删除用户
     char acct[100],choice[5];
     link_list* head=init();
     ulist();
@@ -242,7 +243,8 @@ void del_member()
 
 void logout()
 {
-    flag=0;
+    //登出
+    PERMISSION=0;
     color(GREEN);
     printf("%s has logged out.\n",usr);
     color(WHITE);
