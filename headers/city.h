@@ -1,6 +1,6 @@
 /*
  * @Author: Mr.Sen
- * @LastEditTime: 2020-06-01 23:00:42
+ * @LastEditTime: 2020-06-04 20:01:14
  * @Website: https://grimoire.cn
  * @Mr.Sen All rights reserved
  */ 
@@ -27,6 +27,7 @@ int init_map(); //初始化地图
 void del();     //删除数据
 void sort();    //对数据进行排序并保存
 int dir_city(); //输出城市列表
+void check_path();
 
  
 int MX;     //地图最大边际x
@@ -49,6 +50,15 @@ int add()
         scanf("%d",&x);
         printf("Please enter the y-loc:");
         scanf("%d",&y);
+        if (map[x][y])
+        {
+            color(RED);
+            printf("%s already existed!!\n",name);
+            color(WHITE);
+            printf("Pleae enter the name:");
+            continue;
+        }
+        map[x][y]=1;
         strcpy(loc_lst[index].name,name);
         loc_lst[index].x=x;
         loc_lst[index].y=y;
@@ -116,6 +126,7 @@ void del()
         if (fg1==1) color(GREEN),printf("successfully delete\n");
         else color(RED),printf("%s does not exist\n",target);
         color(WHITE);
+        check_path();
     }
         
     else
@@ -145,7 +156,7 @@ int init_map()
     }
     while (fscanf(fp,"%s%d%d\n",name,&x,&y)!=-1)
     {
-        map[x][y]=1;
+        map[x][y]=1+index2;
         strcpy(city_name[index2],name);
         strcpy(loc_lst[index2].name,name);
         loc_lst[index2].x=x;
@@ -268,4 +279,28 @@ int dir_city()
     color(WHITE);
     fclose(fp);
     return 1;
+}
+
+void check_path()
+{
+    init_map();
+    FILE *fp2=fopen(".\\dat\\path.txt","r");
+    if (fp2==NULL) return;
+    FILE *tmp=fopen(".\\dat\\cache.txt","w");
+    int x,x1,y,y1;
+    double fifi;
+    // printf("!!!\n");
+    while (fscanf(fp2,"%d%d%d%d%lf\n",&x,&y,&x1,&y1,&fifi)!=-1)
+    {
+        if (map[x][y]&&map[x1][y1])
+        {
+            fprintf(tmp,"%d %d %d %d %lf\n",x,y,x1,y1,fifi);
+        }
+    }
+    // printf("!!!\n");
+    fclose(fp2);
+    fclose(tmp);
+    remove(".\\dat\\path.txt");
+    rename(".\\dat\\cache.txt",".\\dat\\path.txt");
+    return;
 }

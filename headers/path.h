@@ -1,6 +1,6 @@
 /*
  * @Author: Mr.Sen
- * @LastEditTime: 2020-06-01 22:48:35
+ * @LastEditTime: 2020-06-03 11:54:15
  * @Website: https://grimoire.cn
  * @Mr.Sen All rights reserved
  */ 
@@ -97,7 +97,7 @@ void makeinput()
             {
                 if (map[j][i]&&map[k][i+move])
                 {
-                    fprintf(fp2,"%d %d %lf\n",map[j][i],map[k][i+move],len(j,i,k,i+move));
+                    fprintf(fp2,"%d %d %d %d %lf\n",j,i,k,i+move,len(j,i,k,i+move));
                     flag=1;
                 }
                 if (map[j][i])
@@ -181,8 +181,10 @@ void CreateGraph(MGraph *G)
         }
         for(k=0;k<G->arcnum;k++)  
         {  
- 
-            fscanf(fp,"%d%d%lf\n",&ch1,&ch2,&weight);
+            int x1,x2,y1,y2;
+            fscanf(fp,"%d%d%d%d%lf\n",&x1,&y1,&x2,&y2,&weight);
+            ch1=map[x1][y1];
+            ch2=map[x2][y2];
 
             for(i=0;ch1!=G->vexs[i];i++);  
             for(j=0;ch2!=G->vexs[j];j++);  
@@ -245,44 +247,50 @@ int find_way()
     scanf("%d",&ed);
     
     int fg2=0;
-    if (bg>ed)
-    {
-        int tmp=bg;
-        bg=ed;
-        ed=tmp;
-        fg2=1;
-    }
+    // if (bg>ed)
+    // {
+    //     int tmp=bg;
+    //     bg=ed;
+    //     ed=tmp;
+    //     fg2=1;
+    // }
     if (bg-1>=G.vexnum) bg=G.vexnum;
     if (bg<=0) bg=1;
     if (ed-1>=G.vexnum) ed=G.vexnum;
     if (ed<=0) ed=1;
 
     char str1[40],str2[40],str3[40];
-    printf("From %d -> %d\n",bg,ed);
-    printf("Weight: %.3lf\n",D[bg-1][ed-1]);
-    printf("Path:%s",loc_lst[bg-1].name);
+    printf("|From:   %d -> %d|\n",bg,ed);
+    printf("|Length: %6.3lf|\n",D[bg-1][ed-1]);
+    printf("|Path:   %s(%d)",loc_lst[bg-1].name,bg);
     k=P[bg-1][ed-1];
     while (k!=ed-1)
     {
-        printf("->%s",loc_lst[(int)k].name);
+        printf("->%s(%d)",loc_lst[(int)k].name,(int)k+1);
         k=P[(int)k][ed-1];
     }
-    printf("->%s\n",loc_lst[ed-1].name);
+    printf("->%s(%d)|\n",loc_lst[ed-1].name,ed);
     return 0;
 } 
 
 void show_path()
 {
-    FILE *fp=fopen(".\\dat\\path.txt","r");
-    int x,y;
+    init_map();
+    FILE *fp3=fopen("./dat/path.txt","r");
+    int x,y,x1,y1,index=1;
     double zx;
-    printf(" -------------------------------------------\n");
-    while (fscanf(fp,"%d%d%lf\n",&x,&y,&zx)!=-1)
+    if (fp3==NULL)
     {
-        printf("|%-19s -> %-19s|\n",loc_lst[x-1].name,loc_lst[y-1].name);
+        printf("ERR\n");
+        return ;
     }
-    printf(" -------------------------------------------\n");
-    fclose(fp);
+    printf(" ----------------------------------------\n");
+    while (fscanf(fp3,"%d%d%d%d%lf\n",&x,&y,&x1,&y1,&zx)!=-1)
+    {
+        printf("| # |%-14s -> %-18s|\n",loc_lst[map[x][y]-1].name,loc_lst[map[x1][y1]-1].name);
+    }
+    printf(" ----------------------------------------\n");
+    fclose(fp3);
     return ;
 }
 void makeinput_by_hand()
@@ -311,7 +319,9 @@ void makeinput_by_hand()
         }
 
         FILE *fp=fopen(".\\dat\\path.txt","a");
-        fprintf(fp,"%d %d %lf",bg,ed,len(loc_lst[bg].x,loc_lst[bg].y,loc_lst[ed].x,loc_lst[ed].y));
+        bg--;ed--;
+        fprintf(fp,"%d %d %d %d %lf\n",loc_lst[bg].x,loc_lst[bg].y,loc_lst[ed].x,loc_lst[ed].y,len(loc_lst[bg].x,loc_lst[bg].y,loc_lst[ed].x,loc_lst[ed].y));
+        bg++;ed++;
         char str[]="Path added!\n";
         cprint(str,GREEN);
         fclose(fp);
@@ -321,10 +331,10 @@ void makeinput_by_hand()
 
 void del_path()
 {
-    //删除城市
+    //删除路径
     char name[100],choice[5];
     int bg,ed;
-    int x,y;
+    int x,y,x1,y1;
     if (dir_city()==0)
     {
         return ;
@@ -354,11 +364,11 @@ void del_path()
         }
         int fg1=0;
         double zxc;
-        while (fscanf(fp,"%d%d%lf\n",&x,&y,&zxc)!=-1)
+        while (fscanf(fp,"%d%d%d%d%lf\n",&x,&y,&x1,&y1,&zxc)!=-1)
         {
-            if (!(x==bg&&y==ed))
+            if (!(map[x][y]==bg&&map[x1][y1]==ed))
             {
-                fprintf(tmp,"%d %d %lf\n",x,y,zxc);
+                fprintf(tmp,"%d %d %d %d %lf\n",x,y,x1,y1,zxc);
             }
             else
             {
@@ -381,4 +391,16 @@ void del_path()
     }
     init_map();
     return;
+}
+
+void show_map()
+{
+    for (int i=1;i<=MX+1;i++)
+    {
+        for (int j=1;j<=MY+1;j++)
+        {
+            printf("%d ",map[i][j]);
+        }
+        printf("\n");
+    }
 }

@@ -1,6 +1,6 @@
 /*
  * @Author: Mr.Sen
- * @LastEditTime: 2020-06-01 23:41:05
+ * @LastEditTime: 2020-06-03 11:12:46
  * @Website: https://grimoire.cn
  * @Mr.Sen All rights reserved
  */ 
@@ -68,6 +68,12 @@ int main()
             if (PERMISSION==2) del_path();
             else warn();
         }
+        else if (strcmp(cmd,"cfg")==0)
+        {
+            show_map();
+        }
+        else if (strcmp(cmd,"clean_path")==0)
+            check_path();
         else if (strcmp(cmd,"ls_path")==0)
             show_path();
         else if (strcmp(cmd,"help")==0)
@@ -85,7 +91,7 @@ int main()
             {
                 color(RED);
                 printf("No \"loc.txt\" founded!\n");
-                color(WHITE);
+                color(WHITE); 
             }
         }
         else if (checkcmd(cmd))
