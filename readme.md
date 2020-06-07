@@ -78,9 +78,4 @@ D:.
 8. --help
    一个彩蛋（彩虹帮助）
 
-更多信息请浏览本人的博客了解
-[https://grimoire.cn/project/qdmap.html](https://grimoire.cn/project/qdmap.html)
-
-permission==2即拥有管理员权限
-permission==1即拥有用户权限
-permission==0或其他即为游客权限
+更多信息请浏览本人的[博客](https://grimoire.cn/project/qdmap.html)或者[项目文档](https://qd.grimoire.cn/)了解
